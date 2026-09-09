@@ -1,5 +1,9 @@
 from pygame import *
+
+init()
 window = display.set_mode((700, 500))
+clock = time.Clock()
+
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y, player_speed, scale_x, scale_y):
         super().__init__()
@@ -11,20 +15,33 @@ class GameSprite(sprite.Sprite):
     def reset(self):
         window.blit(self.image, (self.rect.x, self.rect.y))
 class Player(GameSprite):
-    def update(self):
+    def update_player1(self):
         keys = key.get_pressed()
-        if keys[K_LEFT] and self.rect.x > 0:
-            self.rect.x -= self.player_speed
-        if keys[K_RIGHT] and self.rect.x < 700 - 100:
-            self.rect.x += self.player_speed
-    def shoot(self):
-        bullet1 = Bullet('bullet.png', self.rect.centerx, self.rect.top, 15, 10, 10)
-        bullets.add(bullet1)
-        
+        if keys[K_UP] and self.rect.y > 0:
+            self.rect.y -= self.player_speed
+        if keys[K_DOWN] and self.rect.y < 500 - 120:
+            self.rect.y += self.player_speed
+    def update_player2(self):
+        keys = key.get_pressed()
+        if keys[K_w] and self.rect.y > 0:
+            self.rect.y -= self.player_speed
+        if keys[K_s] and self.rect.y < 500 - 120:
+            self.rect.y += self.player_speed
+
+
+player1 = Player('racket.png', 15, 10, 10, 50, 120)
+player2 = Player('racket.png', 635, 10, 10, 50, 120)
+
 game = True
 while game:
+    display.update()
     window.fill((100, 100, 255))
+    clock.tick(40)
+
     for e in event.get():
         if e.type == QUIT:
             game = False      
-    display.update()
+    player1.reset()
+    player1.update_player1()
+    player2.reset()
+    player2.update_player2()
