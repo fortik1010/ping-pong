@@ -1,6 +1,6 @@
 from pygame import *
 
-init()
+font.init()
 window = display.set_mode((700, 500))
 clock = time.Clock()
 
@@ -33,8 +33,9 @@ class Player(GameSprite):
 player1 = Player('racket.png', 15, 10, 10, 50, 120)
 player2 = Player('racket.png', 635, 10, 10, 50, 120)
 ball = GameSprite('tenis-ball.png', 350, 250, 3, 55, 55)
-speed_y = 7
-speed_x = 7
+font1 = font.Font(None, 50)
+speed_y = 5
+speed_x = 5
 
 game = True
 while game:
@@ -51,6 +52,10 @@ while game:
         speed_x *= -1
     if sprite.collide_rect(ball, player2):
         speed_x *= -1
+    if ball.rect.x > 700-55:
+        window.blit(font1.render('Player 2 lose!', True, (255, 0, 0)), (250, 250))
+    if ball.rect.x < 0-55:
+        window.blit(font1.render('Player 1 lose!', True, (255, 0, 0)), (250, 250))
     for e in event.get():
         if e.type == QUIT:
             game = False      
